@@ -200,7 +200,7 @@ export function HomePage() {
       <section className="cta-band">
         <div className="wrap cta-split">
           <div className="cta-card">
-            <p className="eyebrow light">Buyers</p>
+            <p className="eyebrow">Buyers</p>
             <h2>Buying in bulk?</h2>
             <p>Post one requirement and compare responses from matching suppliers.</p>
             <Link className="btn-accent" to="/post-requirement">
@@ -208,10 +208,10 @@ export function HomePage() {
             </Link>
           </div>
           <div className="cta-card">
-            <p className="eyebrow light">Sellers</p>
+            <p className="eyebrow">Sellers</p>
             <h2>Are you a manufacturer?</h2>
             <p>List products with photos, receive buyer inquiries, and grow distribution across India.</p>
-            <Link className="btn-ghost light" to="/register">
+            <Link className="btn-primary" to="/register">
               Sell on ApnaMart
             </Link>
           </div>
