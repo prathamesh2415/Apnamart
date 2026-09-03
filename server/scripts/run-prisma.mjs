@@ -3,6 +3,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+const PRISMA_VERSION = "6.19.3";
 const serverDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const repoRoot = path.resolve(serverDir, "..");
 const parentRoot = path.resolve(repoRoot, "..");
@@ -28,6 +29,14 @@ function applyEnvFile(filePath) {
   }
 }
 
+function resolveLocalPrismaEntry() {
+  const candidates = [
+    path.join(serverDir, "node_modules", "prisma", "build", "index.js"),
+    path.join(repoRoot, "node_modules", "prisma", "build", "index.js"),
+  ];
+  return candidates.find((candidate) => fs.existsSync(candidate)) ?? null;
+}
+
 const envFile = [path.join(parentRoot, ".env"), path.join(repoRoot, ".env")].find((candidate) =>
   fs.existsSync(candidate),
 );
@@ -38,10 +47,23 @@ if (!process.env.DIRECT_URL && process.env.DATABASE_URL) {
   process.env.DIRECT_URL = process.env.DATABASE_URL;
 }
 
-const result = spawnSync("npx", ["prisma", ...process.argv.slice(2)], {
-  cwd: serverDir,
-  stdio: "inherit",
-  shell: true,
-  env: process.env,
-});
+const args = process.argv.slice(2);
+const localPrisma = resolveLocalPrismaEntry();
+const result = localPrisma
+  ? spawnSync(process.execPath, [localPrisma, ...args], {
+      cwd: serverDir,
+      stdio: "inherit",
+      env: process.env,
+    })
+  : spawnSync(
+      "npx",
+      ["--yes", `--package=prisma@${PRISMA_VERSION}`, "prisma", ...args],
+      {
+        cwd: serverDir,
+        stdio: "inherit",
+        shell: true,
+        env: process.env,
+      },
+    );
+
 process.exit(result.status ?? 1);
