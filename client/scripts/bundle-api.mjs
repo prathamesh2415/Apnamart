@@ -6,7 +6,12 @@ import { build } from "esbuild";
 const clientRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const repoRoot = path.resolve(clientRoot, "..");
 const entry = path.join(repoRoot, "server/src/vercelHandler.ts");
-const targets = [path.join(clientRoot, "api/index.js"), path.join(repoRoot, "api/index.js")];
+const targets = [
+  path.join(clientRoot, "api/index.js"),
+  path.join(clientRoot, "api/[...path].js"),
+  path.join(repoRoot, "api/index.js"),
+  path.join(repoRoot, "api/[...path].js"),
+];
 
 for (const outfile of targets) {
   fs.mkdirSync(path.dirname(outfile), { recursive: true });
@@ -20,7 +25,7 @@ for (const outfile of targets) {
     outfile,
     legalComments: "none",
     logLevel: "info",
-    external: ["@prisma/client"],
+    external: ["@prisma/client", "swagger-ui-express"],
     loader: { ".json": "json" },
   });
 }

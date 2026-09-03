@@ -2,6 +2,17 @@
   "framework": null,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "functions": {
+    "api/health.ts": { "maxDuration": 10 },
+    "api/index.js": {
+      "maxDuration": 30,
+      "includeFiles": "{../server/prisma/**,../node_modules/.prisma/**,../node_modules/@prisma/client/**}"
+    },
+    "api/[...path].js": {
+      "maxDuration": 30,
+      "includeFiles": "{../server/prisma/**,../node_modules/.prisma/**,../node_modules/@prisma/client/**}"
+    }
+  },
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]

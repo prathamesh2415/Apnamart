@@ -5,13 +5,14 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "functions": {
-    "api/index.ts": {
+    "api/health.ts": { "maxDuration": 10 },
+    "api/index.js": {
       "maxDuration": 30,
-      "includeFiles": "{server/prisma/**,server/src/**,node_modules/.prisma/client/**,node_modules/@prisma/client/**}"
+      "includeFiles": "{server/prisma/**,node_modules/.prisma/**,node_modules/@prisma/client/**}"
     },
-    "api/[...path].ts": {
+    "api/[...path].js": {
       "maxDuration": 30,
-      "includeFiles": "{server/prisma/**,server/src/**,node_modules/.prisma/client/**,node_modules/@prisma/client/**}"
+      "includeFiles": "{server/prisma/**,node_modules/.prisma/**,node_modules/@prisma/client/**}"
     }
   },
   "rewrites": [

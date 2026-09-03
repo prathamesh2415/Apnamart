@@ -46,10 +46,11 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   }
   const contentType = response.headers.get("content-type") ?? "";
   if (!contentType.includes("application/json")) {
-    throw new ApiError(
-      "The marketplace API is not deployed. In Vercel → Settings → General, set Root Directory to empty (not client), Framework to Other, then Redeploy.",
-      response.status,
-    );
+    const hint =
+      response.status >= 500
+        ? "API crashed. In Vercel → Settings → Environment Variables, set DATABASE_URL, DIRECT_URL, and JWT_SECRET for Production, then Redeploy."
+        : "API is not reachable. In Vercel → Settings → General, clear Root Directory (do not use client), Framework Other, then Redeploy.";
+    throw new ApiError(hint, response.status);
   }
   const data = (await response.json().catch(() => ({}))) as { error?: string } & T;
   if (!response.ok) {
