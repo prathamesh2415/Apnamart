@@ -48,8 +48,8 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (!contentType.includes("application/json")) {
     const hint =
       response.status >= 500
-        ? "API crashed. In Vercel → Settings → Environment Variables, set DATABASE_URL, DIRECT_URL, and JWT_SECRET for Production, then Redeploy."
-        : "API is not reachable. In Vercel → Settings → General, clear Root Directory (do not use client), Framework Other, then Redeploy.";
+        ? "API crashed. Confirm DATABASE_URL, DIRECT_URL, and JWT_SECRET are set in Vercel, then Redeploy."
+        : "API route not found. In Vercel → Settings → General, Root Directory must be empty (not client). Push latest vercel.json and Redeploy.";
     throw new ApiError(hint, response.status);
   }
   const data = (await response.json().catch(() => ({}))) as { error?: string } & T;

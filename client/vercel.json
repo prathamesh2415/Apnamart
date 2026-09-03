@@ -8,13 +8,10 @@
     "api/index.ts": {
       "maxDuration": 30,
       "includeFiles": "{../server/prisma/**,../node_modules/.prisma/**,../node_modules/@prisma/client/**}"
-    },
-    "api/[...path].ts": {
-      "maxDuration": 30,
-      "includeFiles": "{../server/prisma/**,../node_modules/.prisma/**,../node_modules/@prisma/client/**}"
     }
   },
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
