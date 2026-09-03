@@ -370,43 +370,46 @@ tr:hover td { background: #fafbfc; }
 }
 .subnav a:hover, .subnav a.active { background: #eef2f7; color: var(--brand); }
 
-/* Search — soft field, solid button */
+/* Search — inset button, even padding */
 .search-bar {
   display: flex;
-  align-items: stretch;
-  background: #eef2f7;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid transparent;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid var(--line-strong);
   width: 100%;
   box-shadow: none;
+  overflow: visible;
 }
 .search-bar.header {
   background: #eef2f7;
-  min-height: 44px;
-  border: 1px solid transparent;
+  border-color: transparent;
+  min-height: 48px;
+  padding: 5px;
 }
 .search-bar.header input { color: var(--ink); }
 .search-bar.header input::placeholder { color: var(--muted); }
 .search-bar.page {
-  background: #fff;
-  border: 1px solid var(--line-strong);
-  border-radius: 12px;
   margin: 0 0 28px;
-  min-height: 52px;
+  min-height: 56px;
+  padding: 6px;
 }
 .search-bar.hero {
+  max-width: 560px;
+  min-height: 56px;
+  padding: 6px;
   background: #fff;
   border: 1px solid var(--line-strong);
-  border-radius: 12px;
-  min-height: 54px;
-  max-width: 560px;
 }
 .search-bar input, .search-bar select {
   border: 0;
-  border-radius: 0;
+  border-radius: 10px;
   box-shadow: none;
   background: transparent;
+  height: 42px;
+  min-width: 0;
 }
 .search-bar input:hover, .search-bar select:hover,
 .search-bar input:focus, .search-bar select:focus {
@@ -417,29 +420,41 @@ tr:hover td { background: #fafbfc; }
 }
 .search-bar select {
   width: auto;
-  min-width: 140px;
+  min-width: 132px;
+  max-width: 160px;
   border-right: 1px solid var(--line);
+  border-radius: 0;
   font-weight: 600;
   color: var(--ink);
-  padding-left: 14px;
+  padding: 0 10px 0 12px;
+  margin-right: 2px;
 }
 .search-bar.header select { color: var(--ink); border-right-color: var(--line); }
-.search-bar input { padding-left: 14px; }
-.search-bar button {
-  border-radius: 0;
+.search-bar input {
+  flex: 1;
+  padding: 0 12px;
+}
+.search-bar button,
+.search-bar button.accent,
+.search-bar button.primary {
+  flex-shrink: 0;
+  height: 42px;
+  min-width: 42px;
   padding: 0 18px;
+  margin: 0;
+  border: 0;
+  border-radius: 10px !important;
   white-space: nowrap;
   box-shadow: none !important;
+  align-self: center;
 }
 .search-bar.header button {
-  padding: 0 16px;
   background: var(--brand);
-  border-radius: 0 11px 11px 0;
+  padding: 0 14px;
 }
 .search-bar.hero button,
 .search-bar.page button {
   background: var(--accent);
-  border-radius: 0 11px 11px 0;
 }
 
 /* Footer */
