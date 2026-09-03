@@ -1,0 +1,153 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  BUYER
+  SELLER
+  ADMIN
+}
+
+enum SellerStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  DEACTIVATED
+}
+
+enum ProductStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum LeadChannel {
+  FORM
+  EMAIL
+  WHATSAPP
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         Role
+  name         String
+  phone        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  sellerProfile SellerProfile?
+  buyerProfile  BuyerProfile?
+  buyerLeads    Lead[]         @relation("BuyerLeads")
+}
+
+model BuyerProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName String   @default("")
+  city        String   @default("")
+  whatsapp    String   @default("")
+  gstin       String   @default("")
+  updatedAt   DateTime @updatedAt
+}
+
+model SellerProfile {
+  id          String       @id @default(cuid())
+  userId      String       @unique
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName String
+  description String       @default("")
+  address     String       @default("")
+  website                 String       @default("")
+  inquiryEmail            String       @default("")
+  emailInquiriesEnabled   Boolean      @default(true)
+  showEmailPublicly       Boolean      @default(true)
+  whatsappBusiness        String       @default("")
+  whatsappEnabled         Boolean      @default(false)
+  status                  SellerStatus @default(PENDING)
+  createdAt               DateTime     @default(now())
+  updatedAt               DateTime     @updatedAt
+
+  categories SellerCategory[]
+  products   Product[]
+  leads      Lead[]
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  sellerLinks SellerCategory[]
+  products    Product[]
+}
+
+model SellerCategory {
+  sellerId   String
+  categoryId String
+  seller     SellerProfile @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  category   Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([sellerId, categoryId])
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  sellerId    String
+  seller      SellerProfile @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  categoryId  String
+  category    Category      @relation(fields: [categoryId], references: [id])
+  title       String
+  description String
+  status      ProductStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  images ProductImage[]
+  leads  Lead[]
+
+  @@index([status, categoryId])
+  @@index([title])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  sortOrder Int     @default(0)
+}
+
+model Lead {
+  id         String        @id @default(cuid())
+  buyerId    String
+  buyer      User          @relation("BuyerLeads", fields: [buyerId], references: [id], onDelete: Cascade)
+  sellerId   String
+  seller     SellerProfile @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  productId  String?
+  product    Product?      @relation(fields: [productId], references: [id], onDelete: SetNull)
+  message    String
+  channel    LeadChannel   @default(FORM)
+  createdAt  DateTime      @default(now())
+
+  @@index([sellerId])
+  @@index([buyerId])
+}
+
+model CmsPage {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  body      String
+  updatedAt DateTime @updatedAt
+}

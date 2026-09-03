@@ -1,0 +1,21 @@
+{
+  "name": "apnamart",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "postinstall": "npm run prisma:generate -w marketplace-api",
+    "build": "npm run prisma:generate -w marketplace-api && npm run build -w marketplace-web",
+    "db:migrate": "npm run prisma:deploy -w marketplace-api",
+    "db:seed": "npm run db:seed -w marketplace-api"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.13.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.13.0"
+  }
+}

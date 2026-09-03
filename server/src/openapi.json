@@ -1,0 +1,24 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "B2B Marketplace API",
+    "version": "1.0.0",
+    "description": "Lead-generation marketplace. No payments or product pricing."
+  },
+  "servers": [{ "url": "http://localhost:4000" }],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    }
+  },
+  "paths": {
+    "/api/health": { "get": { "summary": "Health", "responses": { "200": { "description": "OK" } } } },
+    "/api/auth/register": { "post": { "summary": "Register buyer or seller", "responses": { "201": { "description": "Created" } } } },
+    "/api/auth/login": { "post": { "summary": "Login", "responses": { "200": { "description": "JWT" } } } },
+    "/api/auth/me": { "get": { "security": [{ "bearerAuth": [] }], "summary": "Current user", "responses": { "200": { "description": "User" } } } },
+    "/api/categories": { "get": { "summary": "List categories", "responses": { "200": { "description": "List" } } } },
+    "/api/products": { "get": { "summary": "Search approved products", "responses": { "200": { "description": "List" } } } },
+    "/api/leads": { "post": { "security": [{ "bearerAuth": [] }], "summary": "Buyer inquiry", "responses": { "201": { "description": "Created" } } } },
+    "/api/admin/stats": { "get": { "security": [{ "bearerAuth": [] }], "summary": "Admin analytics", "responses": { "200": { "description": "Counts" } } } }
+  }
+}
