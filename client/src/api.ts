@@ -44,6 +44,13 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (response.status === 204) {
     return undefined as T;
   }
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) {
+    throw new ApiError(
+      "Marketplace API is not reachable. In Vercel, turn off Deployment Protection for Production.",
+      response.status,
+    );
+  }
   const data = (await response.json().catch(() => ({}))) as { error?: string } & T;
   if (!response.ok) {
     throw new ApiError(data.error ?? "Request failed", response.status);

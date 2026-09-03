@@ -18,6 +18,16 @@ export function catalogRouter(mailer: Mailer): Router {
     res.json({ categories });
   });
 
+  router.get("/stats", async (_req, res) => {
+    const [products, sellers, buyers, categories] = await Promise.all([
+      prisma.product.count({ where: { status: ProductStatus.APPROVED, seller: { status: SellerStatus.APPROVED } } }),
+      prisma.sellerProfile.count({ where: { status: SellerStatus.APPROVED } }),
+      prisma.buyerProfile.count(),
+      prisma.category.count(),
+    ]);
+    res.json({ products, sellers, buyers, categories });
+  });
+
   router.get("/cms/:slug", async (req, res) => {
     const page = await prisma.cmsPage.findUnique({ where: { slug: routeParam(req.params.slug) } });
     if (!page) {
@@ -31,6 +41,7 @@ export function catalogRouter(mailer: Mailer): Router {
     const q = typeof req.query.q === "string" ? req.query.q.trim() : "";
     const categoryId = typeof req.query.categoryId === "string" ? req.query.categoryId : undefined;
     const page = Math.max(1, Number(req.query.page) || 1);
+    const pageSize = Math.min(24, Math.max(1, Number(req.query.pageSize) || PAGE_SIZE));
     const where = {
       status: ProductStatus.APPROVED,
       seller: { status: SellerStatus.APPROVED },
@@ -54,8 +65,8 @@ export function catalogRouter(mailer: Mailer): Router {
           seller: { include: { user: { select: { name: true, phone: true, email: true } } } },
         },
         orderBy: { createdAt: "desc" },
-        skip: (page - 1) * PAGE_SIZE,
-        take: PAGE_SIZE,
+        skip: (page - 1) * pageSize,
+        take: pageSize,
       }),
     ]);
     res.json({
@@ -64,12 +75,13 @@ export function catalogRouter(mailer: Mailer): Router {
         seller: {
           id: product.seller.id,
           companyName: product.seller.companyName,
+          address: product.seller.address,
           ...publicContact(product.seller),
         },
       })),
       total,
       page,
-      pageSize: PAGE_SIZE,
+      pageSize,
     });
   });
 
@@ -117,6 +129,11 @@ export function catalogRouter(mailer: Mailer): Router {
         include: {
           user: { select: { name: true } },
           categories: { include: { category: true } },
+          products: {
+            where: { status: ProductStatus.APPROVED },
+            take: 1,
+            include: { images: { orderBy: { sortOrder: "asc" }, take: 1 } },
+          },
           _count: { select: { products: { where: { status: ProductStatus.APPROVED } } } },
         },
         orderBy: { companyName: "asc" },
@@ -134,6 +151,7 @@ export function catalogRouter(mailer: Mailer): Router {
         contactName: seller.user.name,
         categories: seller.categories.map((link) => link.category),
         productCount: seller._count.products,
+        coverImage: seller.products[0]?.images[0]?.url ?? null,
       })),
       total,
       page,

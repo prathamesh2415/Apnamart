@@ -8,6 +8,7 @@ export type ProductSummary = {
   seller: {
     id: string;
     companyName: string;
+    address?: string | null;
     email?: string | null;
     emailInquiriesEnabled?: boolean;
     whatsapp?: string | null;
@@ -23,4 +24,5 @@ export type SellerSummary = {
   contactName: string;
   categories: Category[];
   productCount: number;
+  coverImage?: string | null;
 };

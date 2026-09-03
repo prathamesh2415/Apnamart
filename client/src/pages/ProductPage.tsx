@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { categoryPhoto } from "../lib/catalogVisuals";
 import { ApiError, api } from "../api";
 import { InquiryPanel } from "../components/InquiryPanel";
 import { cityFromAddress } from "../lib/format";
@@ -56,7 +57,7 @@ export function ProductPage() {
   }
   if (!product) return <p className="wrap page-pad banner error">{error || "Product not found"}</p>;
 
-  const image = product.images[active]?.url ?? product.images[0]?.url;
+  const image = product.images[active]?.url ?? product.images[0]?.url ?? categoryPhoto(product.category.name);
   const city = cityFromAddress(product.seller.address ?? "");
 
   return (
@@ -68,7 +69,14 @@ export function ProductPage() {
         <div>
           <div className="gallery-main">
             {image ? (
-              <img src={image} alt={product.title} referrerPolicy="no-referrer" />
+              <img
+                src={image}
+                alt={product.title}
+                referrerPolicy="no-referrer"
+                onError={(event) => {
+                  event.currentTarget.src = categoryPhoto(product.category.name);
+                }}
+              />
             ) : (
               <div className="thumb-fallback" style={{ height: 380 }}>
                 {product.category.name}
