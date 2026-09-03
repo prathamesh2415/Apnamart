@@ -1,5 +1,3 @@
-import vercelHandler from "../../server/src/vercelHandler.js";
+export { default } from "marketplace-api/handler";
 
 export const config = { maxDuration: 30 };
-
-export default vercelHandler;

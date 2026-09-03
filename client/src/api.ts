@@ -47,7 +47,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const contentType = response.headers.get("content-type") ?? "";
   if (!contentType.includes("application/json")) {
     throw new ApiError(
-      "Marketplace API is not reachable. In Vercel, turn off Deployment Protection for Production.",
+      "The marketplace API is not deployed. In Vercel → Settings → General, set Root Directory to empty (not client), Framework to Other, then Redeploy.",
       response.status,
     );
   }
