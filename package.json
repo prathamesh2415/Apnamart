@@ -5,15 +5,20 @@
   "engines": {
     "node": ">=20"
   },
-  "workspaces": ["client", "server"],
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
     "postinstall": "npm run prisma:generate -w marketplace-api",
     "build": "npm run prisma:generate -w marketplace-api && npm run build -w marketplace-web",
+    "bundle:api": "node client/scripts/bundle-api.mjs",
     "db:migrate": "npm run prisma:deploy -w marketplace-api",
     "db:seed": "npm run db:seed -w marketplace-api"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",
+    "esbuild": "0.25.9",
     "prisma": "6.19.3"
   }
 }

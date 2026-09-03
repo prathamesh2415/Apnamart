@@ -43,7 +43,7 @@ export function SearchBar({ initialQ = "", categoryId = "", categories = [], var
       />
       <button className={variant === "hero" ? "accent" : "primary"} type="submit">
         <IconSearch size={18} />
-        Search
+        {variant === "header" ? <span className="sr-only">Search</span> : "Search"}
       </button>
     </form>
   );

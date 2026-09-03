@@ -8,9 +8,9 @@ export function CategoryGrid({ categories }: { categories: Category[] }) {
       {categories.map((category) => (
         <Link className="cat-tile photo" key={category.id} to={`/search?categoryId=${category.id}`}>
           <img src={categoryPhoto(category.name)} alt="" referrerPolicy="no-referrer" />
-          <span>
+          <span className="cat-caption">
             <strong>{category.name}</strong>
-            <span className="muted">View products</span>
+            <em>Explore</em>
           </span>
         </Link>
       ))}

@@ -60,7 +60,6 @@ export function CatalogPage() {
         </div>
       </div>
       <SearchBar key={`${q}-${categoryId}`} initialQ={q} categoryId={categoryId} categories={categories} variant="page" />
-      <div style={{ height: 20 }} />
       {error ? <p className="banner error">{error}</p> : null}
       {loading ? <ProductSkeleton /> : null}
       {!loading && products.length === 0 ? (

@@ -9,3 +9,5 @@ uploads
 client/dist
 server/dist
 .vercel
+api/index.js
+client/api/index.js

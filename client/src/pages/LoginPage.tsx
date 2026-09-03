@@ -71,9 +71,9 @@ export function LoginPage() {
             New here? <Link to={registerPath(next ?? undefined)}>Create a free account</Link>
           </p>
         </form>
-        <div className="demo-box">
-          <h3>Demo logins for client walkthrough</h3>
-          <p className="muted">Click to fill, then sign in. Same accounts after you seed Neon.</p>
+        <div className="demo-logins">
+          <p className="demo-logins-title">Try a demo account</p>
+          <p className="muted">Fills the form. Same logins after Neon is seeded.</p>
           <button className="ghost" type="button" onClick={() => { setEmail("buyer@marketplace.local"); setPassword("BuyerPass123"); }}>
             Buyer
           </button>

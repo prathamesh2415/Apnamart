@@ -18,6 +18,7 @@ export function ProductCard({ product }: { product: ProductSummary }) {
             event.currentTarget.src = categoryPhoto(product.category.name);
           }}
         />
+        <span className="thumb-cta">Get Best Price</span>
       </Link>
       <div className="product-card-body">
         <div className="product-card-meta">
@@ -31,10 +32,7 @@ export function ProductCard({ product }: { product: ProductSummary }) {
           <Link to={`/sellers/${product.seller.id}`}>{product.seller.companyName}</Link>
           <span>· {city}</span>
         </p>
-        <p className="ask-price">Price on request · GST invoice</p>
-        <Link className="btn-accent" to={`/products/${product.id}`}>
-          Get Best Price
-        </Link>
+        <p className="ask-price">Price on request</p>
       </div>
     </article>
   );
