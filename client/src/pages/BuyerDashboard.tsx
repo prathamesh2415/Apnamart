@@ -132,7 +132,7 @@ export function BuyerDashboard() {
       ) : null}
       {leads.length > 0 ? (
         <div className="table-wrap">
-          <table>
+          <table className="responsive-table">
             <thead>
               <tr>
                 <th>Seller</th>
@@ -146,18 +146,18 @@ export function BuyerDashboard() {
             <tbody>
               {leads.map((lead) => (
                 <tr key={lead.id}>
-                  <td>{lead.seller.companyName}</td>
-                  <td>
+                  <td data-label="Seller">{lead.seller.companyName}</td>
+                  <td data-label="Contact">
                     {lead.seller.user.name}
                     <br />
                     {lead.seller.user.phone}
                     <br />
                     {lead.seller.user.email}
                   </td>
-                  <td>{lead.product?.title ?? "—"}</td>
-                  <td>{lead.channel ?? "FORM"}</td>
-                  <td>{lead.message}</td>
-                  <td>{formatDate(lead.createdAt)}</td>
+                  <td data-label="Product">{lead.product?.title ?? "—"}</td>
+                  <td data-label="Channel">{lead.channel ?? "FORM"}</td>
+                  <td data-label="Message">{lead.message}</td>
+                  <td data-label="Sent">{formatDate(lead.createdAt)}</td>
                 </tr>
               ))}
             </tbody>

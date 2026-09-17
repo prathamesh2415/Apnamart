@@ -33,6 +33,9 @@ export function ProductCard({ product }: { product: ProductSummary }) {
           <span>· {city}</span>
         </p>
         <p className="ask-price">Price on request</p>
+        <Link className="btn-accent product-card-cta" to={`/products/${product.id}`}>
+          Get Best Price
+        </Link>
       </div>
     </article>
   );

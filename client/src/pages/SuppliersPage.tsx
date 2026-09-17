@@ -45,7 +45,7 @@ export function SuppliersPage() {
     <div className="wrap page-pad">
       <h1>Find suppliers</h1>
       <p className="muted">Approved companies on ApnaMart. Contact them directly after you send an inquiry.</p>
-      <form className="search-bar page" onSubmit={onSearch} style={{ margin: "20px 0 24px", maxWidth: 640 }}>
+      <form className="search-bar page suppliers-search" onSubmit={onSearch}>
         <input
           aria-label="Search suppliers"
           placeholder="Company, city, or product area"
@@ -72,7 +72,7 @@ export function SuppliersPage() {
         ))}
       </div>
       {total > 12 ? (
-        <p className="row" style={{ marginTop: 20 }}>
+        <p className="row page-pager">
           <button
             className="ghost"
             type="button"

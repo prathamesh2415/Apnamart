@@ -78,7 +78,7 @@ export function CatalogPage() {
         </div>
       ) : null}
       {total > 12 ? (
-        <p className="row" style={{ marginTop: 20 }}>
+        <p className="row page-pager">
           <button className="ghost" type="button" disabled={page <= 1} onClick={() => setPage(page - 1)}>
             Previous
           </button>

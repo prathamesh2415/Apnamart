@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { useSession } from "../session";
 import { BrandLogo } from "./BrandLogo";
 import { IconClose, IconMenu } from "./Icons";
@@ -7,10 +7,24 @@ import { SearchBar } from "./SearchBar";
 
 export function Header() {
   const { user, logout } = useSession();
+  const location = useLocation();
   const [open, setOpen] = useState(false);
 
   const dashboard =
     user?.role === "ADMIN" ? "/admin" : user?.role === "SELLER" ? "/dashboard/seller" : "/dashboard/buyer";
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <header className="header-wrap">
@@ -47,6 +61,7 @@ export function Header() {
               className="nav-toggle"
               type="button"
               aria-expanded={open}
+              aria-controls="mobile-nav"
               aria-label={open ? "Close menu" : "Open menu"}
               onClick={() => setOpen((v) => !v)}
             >
@@ -54,15 +69,18 @@ export function Header() {
             </button>
           </div>
         </div>
-        <div className={`wrap header-drawer ${open ? "open" : ""}`}>
+        <div id="mobile-nav" className={`wrap header-drawer ${open ? "open" : ""}`}>
           <NavLink to="/search" onClick={() => setOpen(false)}>
-            Products
+            All products
           </NavLink>
           <NavLink to="/suppliers" onClick={() => setOpen(false)}>
             Suppliers
           </NavLink>
           <NavLink to="/post-requirement" onClick={() => setOpen(false)}>
             Post Requirement
+          </NavLink>
+          <NavLink to="/page/about" onClick={() => setOpen(false)}>
+            About
           </NavLink>
           <NavLink to="/register" onClick={() => setOpen(false)}>
             Sell on ApnaMart

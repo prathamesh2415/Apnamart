@@ -47,7 +47,7 @@ export function PostRequirementPage() {
       <p className="muted">
         Tell us what you need. We match live catalog listings — then you send Get Best Price to those suppliers.
       </p>
-      <div className="req-layout" style={{ marginTop: 24 }}>
+      <div className="req-layout">
         <form className="card form" onSubmit={onSubmit}>
           <label htmlFor="req-product">Product / service</label>
           <input

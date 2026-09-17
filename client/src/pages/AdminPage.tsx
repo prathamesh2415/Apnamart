@@ -189,7 +189,7 @@ export function AdminPage() {
 
       <h2>Products</h2>
       <div className="table-wrap">
-        <table>
+        <table className="responsive-table">
           <thead>
             <tr>
               <th>Title</th>
@@ -202,13 +202,13 @@ export function AdminPage() {
           <tbody>
             {products.map((p) => (
               <tr key={p.id}>
-                <td>{p.title}</td>
-                <td>{p.seller.companyName}</td>
-                <td>{p.category.name}</td>
-                <td>
+                <td data-label="Title">{p.title}</td>
+                <td data-label="Seller">{p.seller.companyName}</td>
+                <td data-label="Category">{p.category.name}</td>
+                <td data-label="Status">
                   <span className={statusChip(p.status)}>{p.status}</span>
                 </td>
-                <td>
+                <td data-label="Actions" className="table-actions">
                   <button className="ghost" type="button" onClick={() => setProductStatus(p.id, "APPROVED")}>
                     Approve
                   </button>{" "}

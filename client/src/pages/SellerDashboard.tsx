@@ -261,7 +261,7 @@ export function SellerDashboard() {
           <EmptyState title="No products yet" body="Submit a listing after your account is approved." />
         ) : (
           <div className="table-wrap">
-            <table>
+            <table className="responsive-table">
               <thead>
                 <tr>
                   <th>Title</th>
@@ -272,9 +272,9 @@ export function SellerDashboard() {
               <tbody>
                 {products.map((p) => (
                   <tr key={p.id}>
-                    <td>{p.title}</td>
-                    <td>{p.category.name}</td>
-                    <td>
+                    <td data-label="Title">{p.title}</td>
+                    <td data-label="Category">{p.category.name}</td>
+                    <td data-label="Status">
                       <span className={statusChip(p.status)}>{p.status}</span>
                     </td>
                   </tr>
@@ -291,7 +291,7 @@ export function SellerDashboard() {
           <EmptyState title="No buyer leads yet" body="Leads appear here when a buyer sends Get Best Price." />
         ) : (
           <div className="table-wrap">
-            <table>
+            <table className="responsive-table">
               <thead>
                 <tr>
                   <th>Buyer</th>
@@ -302,7 +302,7 @@ export function SellerDashboard() {
               <tbody>
                 {leads.map((lead) => (
                   <tr key={lead.id}>
-                    <td>
+                    <td data-label="Buyer">
                       {lead.buyer.name}
                       <br />
                       {lead.buyer.email}
@@ -315,8 +315,8 @@ export function SellerDashboard() {
                         </>
                       ) : null}
                     </td>
-                    <td>{lead.product?.title ?? "—"}</td>
-                    <td>{lead.message}</td>
+                    <td data-label="Product">{lead.product?.title ?? "—"}</td>
+                    <td data-label="Message">{lead.message}</td>
                   </tr>
                 ))}
               </tbody>
